@@ -64,7 +64,7 @@ export class UserController {
   }
 
   @Put(':id')
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: 'User updated and returned.',
   })
   @ApiForbiddenResponse({
@@ -79,8 +79,8 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     const toUpdateUser = new User(updateUserDto);
-    // Set-req-user middleware sets the connected user id in the request object
-    // toUpdateUser.id = req.payload.token.uuid;
+    delete toUpdateUser.id;
+
     return this.usersService.update(userId, toUpdateUser);
   }
 

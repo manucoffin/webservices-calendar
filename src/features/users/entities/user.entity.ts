@@ -10,7 +10,7 @@ import {
   getOrDefault,
 } from '../../../utils/copy-constructor.tools';
 
-@Entity()
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;

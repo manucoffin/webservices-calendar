@@ -78,9 +78,8 @@ export class UsersService {
     if (user.password) {
       updatedUser.password = await this.getHash(user.password);
     }
-    // return this.usersRepository.save(updatedUser);
 
-    return this.usersRepository.update(userId, { ...updatedUser });
+    return this.usersRepository.update(userId, updatedUser);
   }
 
   /**
