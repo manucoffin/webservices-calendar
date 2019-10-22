@@ -3,24 +3,41 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { getCopyConstructions } from '../../../utils/copy-constructor.tools';
+import {
+  getCopyConstructions,
+  getOrDefault,
+} from '../../../utils/copy-constructor.tools';
 
 @Entity()
 export class User {
-  @Column({ type: 'text', name: 'firstname' })
-  firstname: string;
+  @PrimaryGeneratedColumn('uuid', { name: 'id' })
+  id: string;
 
-  @Column({ type: 'text', name: 'lastname' })
-  lastname: string;
+  @Column({ type: 'varchar', name: 'first_name', length: 100 })
+  firstName: string;
+
+  @Column({ type: 'varchar', name: 'last_name', length: 100 })
+  lastName: string;
+
+  @Column({ type: 'varchar', name: 'email', length: 200 })
+  email: string;
+
+  @Column({ type: 'varchar', name: 'password' })
+  password: string;
 
   @CreateDateColumn()
   created: Date;
 
-  @PrimaryGeneratedColumn('uuid', { name: 'id' })
-  id: string;
+  @UpdateDateColumn()
+  updated: Date;
 
-  // constructor() {
-  //   this.author = getCopyConstruction(User, copy.author);
-  // }
+  constructor(copy: Partial<User> = {}) {
+    this.email = getOrDefault(copy.email, '');
+    this.password = getOrDefault(copy.password, '');
+    this.lastName = getOrDefault(copy.lastName, '');
+    this.firstName = getOrDefault(copy.firstName, '');
+    this.id = getOrDefault(copy.id, undefined);
+  }
 }
